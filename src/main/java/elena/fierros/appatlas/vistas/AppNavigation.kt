@@ -1,6 +1,11 @@
 package elena.fierros.appatlas.vistas
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import elena.fierros.appatlas.viewmodels.PaisesViewModel
 
 @Composable
 fun AppNavigation(
@@ -20,8 +25,15 @@ fun AppNavigation(
                 cargando = viewModel.cargando.value,
                 error = viewModel.error.value,
                 onReintentar = { viewModel.cargarPaises() },
-                onPaisClick = { },
+                onPaisClick = { codigo -> navController.navigate("detalle/$codigo") },
                 onJugar = { }
+            )
+        }
+        composable("detalle/{codigo}") { entrada ->
+            val codigo = entrada.arguments?.getString("codigo") ?: ""
+            DetalleScreen(
+                pais = viewModel.buscarPais(codigo),
+                onVolver = { navController.popBackStack() }
             )
         }
     }
