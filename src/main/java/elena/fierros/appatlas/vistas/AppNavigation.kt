@@ -26,7 +26,7 @@ fun AppNavigation(
                 error = viewModel.error.value,
                 onReintentar = { viewModel.cargarPaises() },
                 onPaisClick = { codigo -> navController.navigate("detalle/$codigo") },
-                onJugar = { }
+                onJugar = { navController.navigate("juego") }
             )
         }
         composable("detalle/{codigo}") { entrada ->
@@ -36,5 +36,9 @@ fun AppNavigation(
                 onVolver = { navController.popBackStack() }
             )
         }
+        composable("juego") {
+            JuegosScreen(paises = viewModel.paises.value)
+        }
     }
 }
+
